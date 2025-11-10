@@ -1,0 +1,50 @@
+<!-- logo-balanza.svg | Balanza dorada con degradado metálico, fondo transparente -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Balanza dorada">
+  <defs>
+    <!-- Degradado metálico oro -->
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#FFF2B3"/>
+      <stop offset="18%"  stop-color="#F7D97A"/>
+      <stop offset="33%"  stop-color="#E8B94E"/>
+      <stop offset="50%"  stop-color="#C9972E"/>
+      <stop offset="67%"  stop-color="#E3B04F"/>
+      <stop offset="82%"  stop-color="#F4D57A"/>
+      <stop offset="100%" stop-color="#B8821A"/>
+    </linearGradient>
+    <!-- Suave brillo central para dar sensación metálica -->
+    <radialGradient id="sheen" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="60%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Viga superior -->
+  <path d="M28 45c7.5-4.5 19.4-7.5 36-7.5s28.5 3 36 7.5c2 1.2 2.6 3.8 1.4 5.8s-3.8 2.6-5.8 1.4C88 49.2 77.2 46.5 64 46.5S40 49.2 34.4 52.3c-2 1.2-4.6.6-5.8-1.4-1.2-2-.6-4.6 1.4-5.8Z" fill="url(#gold)"/>
+
+  <!-- Remate central -->
+  <path d="M64 28c2.6 0 4.8 2.1 4.8 4.8v7.2h-9.6v-7.2c0-2.6 2.1-4.8 4.8-4.8Z" fill="url(#gold)"/>
+
+  <!-- Pilar -->
+  <path d="M58.2 44h11.6v41.5c0 1.8 1 3.4 2.6 4.2l8.6 4.4c1.7.9 2.6 2.6 2.6 4.4v.5H44.4v-.5c0-1.8.9-3.5 2.6-4.4l8.6-4.4c1.6-.8 2.6-2.4 2.6-4.2V44Z" fill="url(#gold)"/>
+
+  <!-- Base -->
+  <path d="M28 105.5c0-3.2 2.6-5.8 5.8-5.8h60.4c3.2 0 5.8 2.6 5.8 5.8v2.5H28v-2.5Z" fill="url(#gold)"/>
+
+  <!-- Cadenas izquierda -->
+  <path d="M44 52.5c1.1 0 2 .9 2 2v18.5c0 1.1-.9 2-2 2s-2-.9-2-2V54.5c0-1.1.9-2 2-2Z" fill="url(#gold)"/>
+  <path d="M32 52.5c1.1 0 2 .9 2 2v18.5c0 1.1-.9 2-2 2s-2-.9-2-2V54.5c0-1.1.9-2 2-2Z" fill="url(#gold)"/>
+
+  <!-- Cadenas derecha -->
+  <path d="M84 52.5c1.1 0 2 .9 2 2v18.5c0 1.1-.9 2-2 2s-2-.9-2-2V54.5c0-1.1.9-2 2-2Z" fill="url(#gold)"/>
+  <path d="M96 52.5c1.1 0 2 .9 2 2v18.5c0 1.1-.9 2-2 2s-2-.9-2-2V54.5c0-1.1.9-2 2-2Z" fill="url(#gold)"/>
+
+  <!-- Platillo izquierdo -->
+  <path d="M25 77.5c0-1.1.9-2 2-2h24c1.1 0 2 .9 2 2 0 8.3-6.7 15-15 15h0c-8.3 0-15-6.7-15-15Z" fill="url(#gold)"/>
+
+  <!-- Platillo derecho -->
+  <path d="M73 77.5c0-1.1.9-2 2-2h24c1.1 0 2 .9 2 2 0 8.3-6.7 15-15 15h0c-8.3 0-15-6.7-15-15Z" fill="url(#gold)"/>
+
+  <!-- Brillo sutil sobre el conjunto -->
+  <ellipse cx="64" cy="50" rx="46" ry="22" fill="url(#sheen)"/>
+</svg>

@@ -1,0 +1,68 @@
+// src/features/consultas/ConsultasContainer.tsx
+import { Row, Col, Space } from "antd";
+import useConsultas from "@/features/consultas/hooks/useConsultas";
+import HeaderBar from "@/features/consultas/components/header-bar";
+import ConsultaForm from "@/features/consultas/components/consulta-form";
+import AIAnalysisPanel from "@/features/consultas/components/AI-analysis-panel";
+import useAIAnalysis from "@/features/consultas/hooks/useAIAnalysis";
+import AIClarifyChat from "@/features/consultas/components/AI-clarify-chat";
+
+export default function ConsultasContainer() {
+  const {
+    filtroEstado,
+    setFiltroEstado,
+    filtered,
+    detalle,
+    setDetalle,
+    crearCaso,
+    form,
+  } = useConsultas();
+
+  const ai = useAIAnalysis();
+
+  return (
+    <Space
+      direction="vertical"
+      size="large"
+      className="w-full"
+      style={{ display: "flex", flexDirection: "column" }}
+    >
+      <HeaderBar onNueva={() => form.submit()} />
+
+      {/* FILA PRINCIPAL: Form (izq) + Asistente/Chat (der) */}
+      <Row gutter={[24, 24]} align="top">
+        <Col xs={24} md={14} lg={14}>
+          <ConsultaForm
+            form={form}
+            onSubmit={(values) => {
+              crearCaso(values);
+              ai.start(values); // dispara la IA (mock por ahora)
+            }}
+          />
+        </Col>
+
+        {/* DERECHA: Asistente + Chat (apilados) */}
+        <Col xs={24} md={10} lg={10}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+            }}
+          >
+            <AIAnalysisPanel
+              loading={ai.loading}
+              error={ai.error}
+              result={ai.result}
+              onRegenerate={() => ai.start(form.getFieldsValue())}
+              onAccept={() => {
+                if (ai.result) console.log("Aceptar propuesta:", ai.result);
+              }}
+            />
+            {ai.result && <AIClarifyChat context={ai.result} />}
+          </div>
+        </Col>
+      </Row>
+    </Space>
+  );
+}

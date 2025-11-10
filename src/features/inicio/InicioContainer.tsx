@@ -1,0 +1,31 @@
+import { Space } from "antd";
+import HeaderWelcome from "./components/header-welcome";
+import QuickActions from "./components/quick-actions";
+import NewsJurisprudencia from "./components/news-jurisprudencia";
+
+export default function InicioContainer() {
+  const noticias = [
+    {
+      titulo: "Reforma del Código Laboral…",
+      fecha: "Octubre 2025",
+      resumen: "…",
+    },
+    { titulo: "Corte Suprema…", fecha: "Septiembre 2025", resumen: "…" },
+    { titulo: "Mediación obligatoria…", fecha: "Agosto 2025", resumen: "…" },
+  ];
+
+  return (
+    <Space direction="vertical" size="large" className="w-full">
+      <HeaderWelcome
+        title="⚖️ Bienvenido/a"
+        subtitle="Plataforma especializada en Derecho Laboral de Nicaragua"
+        ctaLabel="Nueva Consulta"
+        onCta={() => {
+          /* navegar a /consultas/nueva */
+        }}
+      />
+      <QuickActions /> {/* 3 tarjetas: Consultas, Usuarios, Ajustes */}
+      <NewsJurisprudencia noticias={noticias} /> {/* tarjetas de noticias */}
+    </Space>
+  );
+}

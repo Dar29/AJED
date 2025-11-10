@@ -1,0 +1,99 @@
+/* --- Layout base --- */
+:root {
+  --nav-h: 56px;
+  --side-w: 240px;
+  --border: #e5e7eb;
+  --bg: #f9fafb;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #1f2937;
+}
+body { background: #f7f7f9; }
+#root { min-height: 100vh; }
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: #fff;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: var(--nav-h) 1fr;
+}
+
+/* Navbar */
+.app-navbar {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+.nav-actions .btn-ghost {
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Body: sidebar + main */
+.app-body {
+  display: grid;
+  grid-template-columns: var(--side-w) 1fr;
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* Sidebar */
+.app-sidebar {
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  padding: 12px;
+  overflow: auto;
+}
+
+.side-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 14px;
+}
+.side-link:hover { background: #eef2ff; }
+.side-link--active {
+  background: #e0e7ff;
+  font-weight: 600;
+}
+
+/* Main */
+.app-main {
+  padding: 16px;
+  overflow: auto;
+}
+.app-main h1 {
+  margin: 0 0 12px;
+}
+.app-main p {
+  color: var(--muted);
+  margin: 0;
+}

@@ -85,7 +85,7 @@ export default function AIAnalysisPanel({
       className="shadow-md"
       title={
         <span className="text-blue-800 font-semibold">
-          🤖 Análisis del asistente
+          Análisis del asistente
         </span>
       }
       extra={

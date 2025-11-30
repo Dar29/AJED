@@ -47,7 +47,7 @@ export default function AIClarifyChat({
       className="shadow-md"
       title={
         <span className="text-blue-800 font-semibold">
-          💬 Aclaraciones sobre esta respuesta
+          Aclaraciones sobre esta respuesta
         </span>
       }
     >

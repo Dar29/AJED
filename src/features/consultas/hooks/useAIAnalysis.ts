@@ -32,7 +32,6 @@ export default function useAIAnalysis() {
   const [result, setResult] = useState<AIResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // ⚠️ Mock: reemplazar por tu endpoint luego
   const start = async (payload: {
     categoria: string;
     asunto: string;
@@ -46,54 +45,44 @@ export default function useAIAnalysis() {
     setResult(null);
 
     try {
-      await new Promise((r) => setTimeout(r, 1200));
+      // 1. Construir un prompt detallado para enviar al backend
+      const prompt = `
+        Por favor, actúa como un asistente legal experto en la legislación de Nicaragua.
+        Analiza el siguiente caso y proporciona un resumen y los pasos a seguir.
 
-      const mock: AIResult = {
-        titulo: `Propuesta inicial: ${payload.asunto || "Consulta"}`,
-        resumen:
-          "Con base en la categoría y hechos descritos, se sugiere documentar evidencias, revisar CT (NI) y considerar mediación previa.",
-        pasos: [
-          "Reunir contrato, planillas y marcaciones.",
-          "Calcular diferencias (si aplica) y redactar minuta/carta.",
-          "Citar lineamientos MITRAB y preparar mediación.",
-        ],
-        categoria: payload.categoria || "General",
-        riesgo: "Medio",
-        confianza: 0.78,
-        referencias: [
-          { titulo: "Código del Trabajo (NI)" },
-          { titulo: "Guías MITRAB sobre mediación" },
-        ],
-        resolucion: {
-          decision:
-            "Procede el reconocimiento de horas extras y recargos por jornadas prolongadas, con base en evidencia documental y control de asistencia.",
-          fundamento:
-            "La línea jurisprudencial nacional ha establecido que la carga probatoria del empleador respecto al control horario es determinante; ante su deficiencia, prevalecen indicios razonables del trabajador.",
-          probabilidad: 0.72,
+        **Categoría del caso:** ${payload.categoria}
+        **Asunto:** ${payload.asunto}
+        **Resumen de los hechos:** ${payload.resumen}
+        **Prioridad:** ${payload.prioridad || "No especificada"}
+      `;
+
+      const url = "http://127.0.0.1:8000/api/analyze";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        jurisprudencia: [
-          {
-            id: "CSJ-123-2021",
-            nombre: "CSJ – Sala Laboral, Sent. 123/2021",
-            extracto:
-              "Se confirma condena por horas extras al verificarse registros incompletos de asistencia y comunicaciones internas que evidencian labores fuera de jornada.",
-            anio: "2021",
-            tipo: "CSJ",
-          },
-          {
-            id: "APL-045-2019",
-            nombre: "Tribunal de Apelaciones, Sent. 045/2019",
-            extracto:
-              "Ante duda razonable y falta de control horario, se aplica principio de primacía de la realidad en favor del trabajador.",
-            anio: "2019",
-            tipo: "Apelación",
-          },
-        ],
+        body: JSON.stringify({ prompt }), // El backend espera un objeto { "prompt": "..." }
       };
 
-      setResult(mock);
+      console.log("Realizando petición a:", url, options);
+
+      // 2. Llamar al endpoint del backend
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Ocurrió un error en el servidor.");
+      }
+
+      const data = await response.json(); // El backend ahora devuelve el objeto AIResult directamente.
+      console.log("Datos recibidos del backend:", data); // <-- DEBUGGING LINE
+      // 3. El resultado del backend ya coincide con el tipo AIResult. Lo asignamos directamente.
+      setResult(data as AIResult);
+
     } catch (e) {
-      setError("No se pudo completar el análisis.");
+      const message = e instanceof Error ? e.message : "No se pudo completar el análisis.";
+      setError(message);
     } finally {
       setLoading(false);
     }

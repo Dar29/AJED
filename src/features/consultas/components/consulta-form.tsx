@@ -62,7 +62,7 @@ export default function ConsultaForm({
             placeholder="Describe los hechos relevantes y fechas"
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           label="Documentos (opcional)"
           name="adjuntos"
           valuePropName="fileList"
@@ -76,7 +76,7 @@ export default function ConsultaForm({
               PDF, imágenes u hojas de cálculo (máx. 5)
             </p>
           </Dragger>
-        </Form.Item>
+        </Form.Item> */}
 
         <Space>
           <Button

@@ -1,5 +1,6 @@
 // src/features/consultas/ConsultasContainer.tsx
 import { Row, Col, Space } from "antd";
+import { useNavigate } from "react-router-dom";
 import useConsultas from "@/features/consultas/hooks/useConsultas";
 import HeaderBar from "@/features/consultas/components/header-bar";
 import ConsultaForm from "@/features/consultas/components/consulta-form";
@@ -19,6 +20,14 @@ export default function ConsultasContainer() {
   } = useConsultas();
 
   const ai = useAIAnalysis();
+  const navigate = useNavigate();
+
+  const handleNuevaConsulta = () => {
+    form.resetFields();
+    ai.reset();
+    setDetalle(null);
+    navigate("/consultas");
+  };
 
   return (
     <Space
@@ -27,7 +36,7 @@ export default function ConsultasContainer() {
       className="w-full"
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <HeaderBar onNueva={() => form.submit()} />
+      <HeaderBar onNueva={handleNuevaConsulta} />
 
       {/* FILA PRINCIPAL: Form (izq) + Asistente/Chat (der) */}
       <Row gutter={[24, 24]} align="top">

@@ -18,7 +18,6 @@ export default function HeaderBar({ onNueva }: { onNueva: () => void }) {
         </Col>
         <Col>
           <Space>
-            <Button icon={<FilterOutlined />}>Filtros</Button>
             <Button type="primary" icon={<PlusOutlined />} onClick={onNueva}>
               Nueva
             </Button>

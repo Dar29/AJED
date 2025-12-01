@@ -67,7 +67,7 @@ export default function Navbar({ onToggleSidebar, collapsed }: Props) {
         <Text style={{ color: "#667085" }}>Asistente Jurídico</Text>
       </Space>
 
-      {/* Centro: búsqueda (responsiva) */}
+      {/* Centro: búsqueda (responsiva)
       <div
         style={{
           flex: 1,
@@ -82,7 +82,7 @@ export default function Navbar({ onToggleSidebar, collapsed }: Props) {
           style={{ width: "100%", maxWidth: 520, borderRadius: 6 }}
           allowClear
         />
-      </div>
+      </div> */}
     </Header>
   );
 }

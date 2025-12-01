@@ -85,7 +85,8 @@ async def analyze_prompt(request: AnalysisRequest):
         }
       ]
     }
-    Asegúrate de que el JSON sea sintácticamente correcto.
+    Asegúrate de que el JSON sea sintácticamente correcto y si el usuario hace una consulta que no está
+    relacionada con temas legales laborales de Nicaragua, responde en titulo dentro del JSON que no puede procesar la consulta y los demas dejalos vacíos.
     Ahora, analiza el siguiente caso del usuario:
     """
     full_prompt = f"{system_prompt}\n\n--- CASO DEL USUARIO ---\n{user_prompt}"

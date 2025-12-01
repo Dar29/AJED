@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row, Space, Typography } from "antd";
-import { FilterOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -12,8 +12,7 @@ export default function HeaderBar({ onNueva }: { onNueva: () => void }) {
             Consultas
           </Title>
           <Text type="secondary">
-            Crea, clasifica y gestiona consultas laborales con apoyo del
-            asistente.
+            Consultas laborales con apoyo del asistente.
           </Text>
         </Col>
         <Col>

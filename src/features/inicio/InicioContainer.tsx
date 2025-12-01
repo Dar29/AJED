@@ -2,6 +2,7 @@ import { Space } from "antd";
 import HeaderWelcome from "./components/header-welcome";
 import QuickActions from "./components/quick-actions";
 import NewsJurisprudencia from "./components/news-jurisprudencia";
+import { useNavigate } from "react-router-dom";
 
 export default function InicioContainer() {
   const noticias = [
@@ -14,6 +15,14 @@ export default function InicioContainer() {
     { titulo: "Mediación obligatoria…", fecha: "Agosto 2025", resumen: "…" },
   ];
 
+  const navigate = useNavigate();
+
+  // 3. Crear funciones de manejo de clics
+  const handleLegalConsultsClick = () => {
+    // Redirecciona a la ruta '/consultas-legales'
+    navigate("/consultas");
+  };
+
   return (
     <Space direction="vertical" size="large" className="w-full">
       <HeaderWelcome
@@ -21,7 +30,7 @@ export default function InicioContainer() {
         subtitle="Plataforma especializada en Derecho Laboral de Nicaragua"
         ctaLabel="Nueva Consulta"
         onCta={() => {
-          /* navegar a /consultas/nueva */
+          handleLegalConsultsClick();
         }}
       />
       <QuickActions /> {/* 3 tarjetas: Consultas, Usuarios, Ajustes */}

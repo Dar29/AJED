@@ -12,12 +12,10 @@ import {
 } from "antd";
 import {
   ReloadOutlined,
-  CheckOutlined,
   CopyOutlined,
   FileWordOutlined,
   ExclamationCircleOutlined,
   BookOutlined,
-  ScissorOutlined,
 } from "@ant-design/icons";
 import type { AIResult } from "../hooks/useAIAnalysis";
 
@@ -28,13 +26,11 @@ export default function AIAnalysisPanel({
   error,
   result,
   onRegenerate,
-  onAccept,
 }: {
   loading: boolean;
   error: string | null;
   result: AIResult | null;
   onRegenerate: () => void;
-  onAccept: () => void;
 }) {
   const copy = async () => {
     if (!result) return;
@@ -75,7 +71,7 @@ export default function AIAnalysisPanel({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "respuesta_rapida.doc";
+    a.download = "Respuesta.doc";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -97,14 +93,13 @@ export default function AIAnalysisPanel({
           >
             Regenerar
           </Button>
-          <Button
+          {/* <Button
             type="primary"
             icon={<CheckOutlined />}
-            onClick={onAccept}
             disabled={loading || !result}
           >
             Aceptar
-          </Button>
+          </Button> */}
         </Space>
       }
     >

@@ -9,15 +9,7 @@ import useAIAnalysis from "@/features/consultas/hooks/useAIAnalysis";
 import AIClarifyChat from "@/features/consultas/components/AI-clarify-chat";
 
 export default function ConsultasContainer() {
-  const {
-    filtroEstado,
-    setFiltroEstado,
-    filtered,
-    detalle,
-    setDetalle,
-    crearCaso,
-    form,
-  } = useConsultas();
+  const { setDetalle, crearCaso, form } = useConsultas();
 
   const ai = useAIAnalysis();
   const navigate = useNavigate();
@@ -64,9 +56,6 @@ export default function ConsultasContainer() {
               error={ai.error}
               result={ai.result}
               onRegenerate={() => ai.start(form.getFieldsValue())}
-              onAccept={() => {
-                if (ai.result) console.log("Aceptar propuesta:", ai.result);
-              }}
             />
             {ai.result && <AIClarifyChat context={ai.result} />}
           </div>

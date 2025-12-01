@@ -3,3 +3,4 @@ uvicorn[standard]
 llama-cpp-python
 pydantic
 python-dotenv
+google-generativeai

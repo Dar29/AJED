@@ -32,33 +32,28 @@ export default function ConsultasContainer() {
 
       {/* FILA PRINCIPAL: Form (izq) + Asistente/Chat (der) */}
       <Row gutter={[24, 24]} align="top">
-        <Col xs={24} md={14} lg={14}>
-          <ConsultaForm
-            form={form}
-            onSubmit={(values) => {
-              crearCaso(values);
-              ai.start(values); // dispara la IA (mock por ahora)
-            }}
-          />
-        </Col>
-
-        {/* DERECHA: Asistente + Chat (apilados) */}
+        {/* IZQUIERDA: Formulario de Consulta */}
         <Col xs={24} md={10} lg={10}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 24,
-            }}
-          >
-            <AIAnalysisPanel
-              loading={ai.loading}
-              error={ai.error}
-              result={ai.result}
-              onRegenerate={() => ai.start(form.getFieldsValue())}
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <ConsultaForm
+              form={form}
+              onSubmit={(values) => {
+                crearCaso(values);
+                ai.start(values); // dispara la IA (mock por ahora)
+              }}
             />
             {ai.result && <AIClarifyChat context={ai.result} />}
           </div>
+        </Col>
+
+        {/* DERECHA: Asistente + Chat (apilados) */}
+        <Col xs={24} md={14} lg={14}>
+          <AIAnalysisPanel
+            loading={ai.loading}
+            error={ai.error}
+            result={ai.result}
+            onRegenerate={() => ai.start(form.getFieldsValue())}
+          />
         </Col>
       </Row>
     </Space>

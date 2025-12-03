@@ -12,8 +12,8 @@ export default function NewsJurisprudencia({
     <Card
       title={
         <div className="flex justify-between items-center">
-          <span className="text-blue-800 font-semibold">
-            📰 Jurisprudencia y Noticias Laborales
+          <span className="text-blue-800 font-semibold" style={{ marginRight: '8px' }}>
+            Jurisprudencia y Noticias Laborales
           </span>
           <Tag color="blue">Actualizado</Tag>
         </div>

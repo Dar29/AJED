@@ -66,15 +66,6 @@ export default function AppLayout() {
               <Outlet />
             </div>
           </Content>
-          <Footer
-            style={{
-              textAlign: "center",
-              color: "#999",
-              flexShrink: 0,
-            }}
-          >
-            Asistente Jurídico © {new Date().getFullYear()}
-          </Footer>
         </Layout>
       </Layout>
     </ConfigProvider>

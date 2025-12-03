@@ -107,3 +107,45 @@ async def analyze_prompt(request: AnalysisRequest):
     except Exception as e:
         logging.error(f"Error durante la llamada a Gemini API: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail={"message": "Error al procesar la solicitud con Gemini.", "error_type": type(e).__name__, "details": str(e)})
+
+class ChatRequest(BaseModel):
+    question: str
+    context: dict
+
+@app.post("/api/chat")
+async def chat_with_assistant(request: ChatRequest):
+    if not API_KEY:
+        raise HTTPException(status_code=500, detail={"message": "Error del servidor: La API Key de Gemini no está configurada.", "error_type": "ConfigurationError"})
+
+    user_question = request.question
+    conversation_context = request.context
+
+    # Construye un prompt detallado para el asistente
+    system_prompt = f"""
+    Eres un asistente legal experto en la legislación y jurisprudencia de Nicaragua.
+    El usuario tiene una pregunta sobre un análisis legal que recibiste previamente.
+    El contexto del análisis es el siguiente:
+    --- INICIO DEL CONTEXTO ---
+    {json.dumps(conversation_context, indent=2)}
+    --- FIN DEL CONTEXTO ---
+
+    La pregunta del usuario es: "{user_question}"
+
+    Basado en el contexto proporcionado y tu conocimiento, responde a la pregunta del usuario de manera clara, concisa y útil.
+    Si la pregunta no está relacionada con el contexto legal, indica amablemente que solo puedes responder a preguntas sobre el caso.
+    """
+
+    try:
+        model = genai.GenerativeModel('models/gemini-pro-latest')
+        response = await model.generate_content_async(system_prompt)
+        
+        logging.info(f"Raw response from Gemini for chat: {response.text}")
+
+        if not response.text:
+             raise HTTPException(status_code=500, detail="La API de Gemini devolvió una respuesta vacía.")
+
+        return {"answer": response.text}
+
+    except Exception as e:
+        logging.error(f"Error durante la llamada a Gemini API en el chat: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail={"message": "Error al procesar el chat con Gemini.", "error_type": type(e).__name__, "details": str(e)})

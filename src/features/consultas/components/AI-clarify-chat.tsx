@@ -23,23 +23,36 @@ export default function AIClarifyChat({
   const [sending, setSending] = useState(false);
 
   const send = async () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !context) return;
     const q = text.trim();
     setMsgs((prev) => [...prev, { role: "user", content: q }]);
     setText("");
     setSending(true);
 
-    // ⚠️ MOCK: luego llamas a tu endpoint /chat con {q, context}
-    await new Promise((r) => setTimeout(r, 800));
-    const a =
-      `Según la resolución propuesta: “${context?.resolucion.decision}”. ` +
-      `La base principal fue ${context?.jurisprudencia?.[0]?.nombre}. ` +
-      `Si necesitas impugnar, podemos preparar un escrito enfatizando ${context?.jurisprudencia?.[0]?.extracto?.slice(
-        0,
-        90
-      )}…`;
-    setMsgs((prev) => [...prev, { role: "assistant", content: a }]);
-    setSending(false);
+    try {
+      const response = await fetch("http://localhost:8000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: q,
+          context: context,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al conectar con el asistente. Inténtalo de nuevo.");
+      }
+
+      const result = await response.json();
+      setMsgs((prev) => [...prev, { role: "assistant", content: result.answer }]);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : "Error desconocido.";
+      setMsgs((prev) => [...prev, { role: "assistant", content: `Error: ${errorMsg}` }]);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 // src/features/inicio/components/QuickActions.tsx
-import { Row, Col, Card, Typography } from "antd";
+import { Space, Card, Typography } from "antd";
 import { DownloadOutlined, FileSearchOutlined } from "@ant-design/icons";
 // 1. Importar useNavigate de React Router
 import { useNavigate } from "react-router-dom";
@@ -22,36 +22,36 @@ export default function QuickActions() {
   };
 
   return (
-    <Row gutter={[24, 24]}>
+    <Space direction="vertical" size="large" className="w-full">
       {/* Tarjeta de Consultas Legales */}
-      <Col xs={24} sm={12} md={8}>
-        <Card
-          hoverable
-          bordered={false}
-          className="shadow text-center p-3"
-          // 4. Agregar el evento onClick y la función
-          onClick={handleLegalConsultsClick}
-        >
-          <FileSearchOutlined style={{ fontSize: 36, color: "#1E3A8A" }} />
-          <Title level={4}>Consultas Legales</Title>
-          <Text>Consultas laborales con apoyo del asistente.</Text>
-        </Card>
-      </Col>
+      <Card
+        hoverable
+        bordered={false}
+        className="shadow text-center p-3 w-full"
+        // 4. Agregar el evento onClick y la función
+        onClick={handleLegalConsultsClick}
+      >
+        <FileSearchOutlined style={{ fontSize: 36, color: "#1E3A8A" }} />
+        <Title level={4} className="mt-2">
+          Consultas Legales
+        </Title>
+        <Text>Consultas laborales con apoyo del asistente.</Text>
+      </Card>
 
       {/* Tarjeta de Recursos Descargables */}
-      <Col xs={24} sm={12} md={8}>
-        <Card
-          hoverable
-          bordered={false}
-          className="shadow text-center p-3"
-          // 4. Agregar el evento onClick y la función
-          onClick={handleResourcesClick}
-        >
-          <DownloadOutlined style={{ fontSize: 36, color: "#1E3A8A" }} />
-          <Title level={4}>Recursos Descargables</Title>
-          <Text>Acceso a leyes, jurisprudencia y documentos útiles.</Text>
-        </Card>
-      </Col>
-    </Row>
+      <Card
+        hoverable
+        bordered={false}
+        className="shadow text-center p-3 w-full"
+        // 4. Agregar el evento onClick y la función
+        onClick={handleResourcesClick}
+      >
+        <DownloadOutlined style={{ fontSize: 36, color: "#1E3A8A" }} />
+        <Title level={4} className="mt-2">
+          Recursos Descargables
+        </Title>
+        <Text>Acceso a leyes, jurisprudencia y documentos útiles.</Text>
+      </Card>
+    </Space>
   );
 }

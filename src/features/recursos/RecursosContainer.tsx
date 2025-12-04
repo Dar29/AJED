@@ -49,17 +49,17 @@ export default function RecursosContainer() {
     },
     {
       label: "Ley Sanitaria (PDF)",
-      url: "/docs/ley-sanitaria.pdf",
+      url: "/public/files_leyes/Ley No.760.Ley de Carrera Sanitaria.pdf",
       tipo: "pdf",
     },
     {
       label: "Ley de Protección de Datos Personales (PDF)",
-      url: "/docs/ley-datos-personales.pdf",
+      url: "/public/files_leyes/Ley No.787-Ley-de-Proteccion-de-datos-personales.pdf",
       tipo: "pdf",
     },
     {
       label: "Ley de Personas con Discapacidad (PDF)",
-      url: "/docs/ley-discapacidad.pdf",
+      url: "/public/files_leyes/Ley No. 763.pdf",
       tipo: "pdf",
     },
     // Ejemplo si tuvieras una imagen:

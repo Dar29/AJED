@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { Space, Button, Card, Upload, Typography } from "antd";
-import type { UploadProps } from "antd";
+//import type { UploadProps } from "antd";
 import HeaderBar from "./components/header-bar";
 import { ExportOutlined, FilePdfOutlined, FileImageOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
-type Recurso = {
+/*type Recurso = {
   label: string;
   url: string;
-};
+};*/
 
 type Archivo = {
   label: string;

@@ -47,7 +47,7 @@ export default function InicioContainer() {
 
       <Divider />
 
-      <Row gutter={[24, 24]} align="start">
+      <Row gutter={[24, 24]} align="top">
         <Col xs={24} lg={16}>
           <NewsJurisprudencia noticias={noticias} />
         </Col>

@@ -50,6 +50,50 @@ export default function AIAnalysisPanel({
     message.success("Copiado al portapapeles");
   };
 
+  const generarDemanda = async () => {
+    if (!result) return;
+
+    const key = "generating";
+    message.loading({ content: "Generando documento...", key });
+
+    try {
+      // Construct the payload from the AI result
+      const payload = {
+        hechos: result.resumen,
+        fundamentos_de_derecho: `${result.resolucion.fundamento}. Adicionalmente, se puede citar la siguiente jurisprudencia: ${result.jurisprudencia.map(j => j.nombre).join(', ')}.`,
+        // The other fields will use the defaults in the backend for now
+      };
+
+      const response = await fetch("http://localhost:8000/api/generar-demanda", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error del servidor: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "demanda_generada.docx";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      message.success({ content: "Documento generado y descargado.", key });
+
+    } catch (error) {
+      console.error("Error al generar la demanda:", error);
+      message.error({ content: "No se pudo generar el documento.", key });
+    }
+  };
+
   const exportWord = () => {
     if (!result) return;
     const blob = new Blob(
@@ -203,7 +247,14 @@ export default function AIAnalysisPanel({
               Copiar
             </Button>
             <Button icon={<FileWordOutlined />} onClick={exportWord}>
-              Exportar Word
+              Exportar Análisis
+            </Button>
+            <Button
+              type="primary"
+              icon={<FileWordOutlined />}
+              onClick={generarDemanda}
+            >
+              Generar Demanda
             </Button>
           </Space>
         </Space>

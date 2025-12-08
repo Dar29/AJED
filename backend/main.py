@@ -149,3 +149,56 @@ async def chat_with_assistant(request: ChatRequest):
     except Exception as e:
         logging.error(f"Error durante la llamada a Gemini API en el chat: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail={"message": "Error al procesar el chat con Gemini.", "error_type": type(e).__name__, "details": str(e)})
+
+from fastapi.responses import StreamingResponse
+from docxtpl import DocxTemplate
+import datetime
+import io
+
+class DemandaRequest(BaseModel):
+    hechos: str
+    fundamentos_de_derecho: str
+    demandante_nombre: str = "Nombre del Demandante (Sustituir)"
+    demandante_cedula: str = "000-000000-0000A (Sustituir)"
+    monto_total: str = "XX,XXX.XX C$ (Sustituir)"
+
+@app.post("/api/generar-demanda")
+async def generar_demanda(request: DemandaRequest):
+    try:
+        # Path to the template
+        template_path = os.path.join(BASE_DIR, "templates", "demanda_template.docx")
+        doc = DocxTemplate(template_path)
+
+        # Create context for rendering the template
+        context = {
+            'fecha': datetime.datetime.now().strftime("%d de %B de %Y"),
+            'demandante_nombre': request.demandante_nombre,
+            'demandante_cedula': request.demandante_cedula,
+            'hechos': request.hechos,
+            'fundamentos_de_derecho': request.fundamentos_de_derecho,
+            'monto_total': request.monto_total,
+        }
+
+        # Render the document
+        doc.render(context)
+        
+        # Save the rendered document to an in-memory buffer
+        file_stream = io.BytesIO()
+        doc.save(file_stream)
+        file_stream.seek(0)
+
+        # Define headers to suggest a filename for the download
+        headers = {
+            'Content-Disposition': 'attachment; filename="demanda_generada.docx"'
+        }
+
+        return StreamingResponse(
+            content=file_stream,
+            media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            headers=headers
+        )
+
+    except Exception as e:
+        logging.error(f"Error al generar la demanda: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Error interno al generar el documento.")
+

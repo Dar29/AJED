@@ -3,6 +3,7 @@ import {
   HomeOutlined,
   FileTextOutlined,
   DownloadOutlined,
+  CalculatorOutlined,
 } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
@@ -16,7 +17,8 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const selectedKeys = useMemo(() => {
     const p = location.pathname;
     if (p.startsWith("/consultas")) return ["consultas"];
-    if (p.startsWith("/recursos")) return ["recursos_descargables"];
+    if (p.startsWith("/recursos")) return ["recursos"];
+    if (p.startsWith("/calculadoras")) return ["calculadoras"];
     return ["inicio"];
   }, [location.pathname]);
 
@@ -26,7 +28,12 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
     {
       key: "recursos",
       icon: <DownloadOutlined />,
-      label: "Recursos Descargables",
+      label: "Recursos",
+    },
+    {
+      key: "calculadoras",
+      icon: <CalculatorOutlined />,
+      label: "Calculadoras",
     },
   ];
 
@@ -70,6 +77,7 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
             inicio: "/",
             consultas: "/consultas",
             recursos: "/recursos",
+            calculadoras: "/calculadoras",
           };
           navigate(map[key] || "/");
         }}

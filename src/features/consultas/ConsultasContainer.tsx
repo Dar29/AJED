@@ -1,12 +1,12 @@
 // src/features/consultas/ConsultasContainer.tsx
 import { Row, Col, Space } from "antd";
 import { useNavigate } from "react-router-dom";
-import useConsultas from "@/features/consultas/hooks/useConsultas";
-import HeaderBar from "@/features/consultas/components/header-bar";
-import ConsultaForm from "@/features/consultas/components/consulta-form";
-import AIAnalysisPanel from "@/features/consultas/components/AI-analysis-panel";
-import useAIAnalysis from "@/features/consultas/hooks/useAIAnalysis";
-import AIClarifyChat from "@/features/consultas/components/AI-clarify-chat";
+import useConsultas from "./hooks/useConsultas";
+import HeaderBar from "./components/header-bar";
+import ConsultaForm from "./components/consulta-form";
+import AIAnalysisPanel from "./components/AI-analysis-panel";
+import useAIAnalysis from "./hooks/useAIAnalysis";
+import AIClarifyChat from "./components/AI-clarify-chat";
 
 export default function ConsultasContainer() {
   const { setDetalle, crearCaso, form } = useConsultas();

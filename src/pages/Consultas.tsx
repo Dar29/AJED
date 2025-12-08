@@ -1,4 +1,4 @@
-import ConsultaContainer from "@/features/consultas/ConsultasContainer";
+import ConsultaContainer from "../features/consultas/ConsultasContainer";
 export default function Consultas() {
   return <ConsultaContainer />;
 }

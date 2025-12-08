@@ -1,9 +1,9 @@
 // src/features/inicio/components/banners-carrusel.tsx
 import { Carousel, Image } from "antd"; // Import Typography
-import banner1 from "@/features/inicio/assets/banner_01.png";
-import banner2 from "@/features/inicio/assets/banner_02.png";
-import banner3 from "@/features/inicio/assets/banner_03.png";
-import banner4 from "@/features/inicio/assets/banner_04.png";
+import banner1 from "../assets/banner_01.png";
+import banner2 from "../assets/banner_02.png";
+import banner3 from "../assets/banner_03.png";
+import banner4 from "../assets/banner_04.png";
 
 const banners = [banner1, banner2, banner3, banner4];
 

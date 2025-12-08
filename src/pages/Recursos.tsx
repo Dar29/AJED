@@ -1,4 +1,4 @@
-import RecursosContainer from "@/features/recursos/RecursosContainer";
+import RecursosContainer from "../features/recursos/RecursosContainer";
 export default function Recursos() {
   return <RecursosContainer />;
 }

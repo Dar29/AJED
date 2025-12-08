@@ -1,7 +1,7 @@
 // src/features/consultas/hooks/useConsultas.ts
 import { useMemo, useState } from "react";
 import { Form } from "antd";
-import type { Estado, Caso } from "@/features/consultas/types";
+import type { Estado, Caso } from "../types";
 
 export default function useConsultas() {
   const [form] = Form.useForm();

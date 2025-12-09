@@ -3,7 +3,7 @@ import AppLayout from "../layout/AppLayout";
 import Inicio from "../../pages/Inicio";
 import Consultas from "../../pages/Consultas";
 import Recursos from "../../pages/Recursos";
-import Calculadoras from "../../pages/Calculadora";
+import Calculadoras from "../../pages/Calculadoras";
 
 export const router = createBrowserRouter([
   {

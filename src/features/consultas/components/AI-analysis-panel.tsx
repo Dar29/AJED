@@ -18,6 +18,8 @@ import {
   BookOutlined,
 } from "@ant-design/icons";
 import type { AIResult } from "../hooks/useAIAnalysis";
+import { useState } from "react";
+import DemandaForm from "./demanda-form";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -32,6 +34,8 @@ export default function AIAnalysisPanel({
   result: AIResult | null;
   onRegenerate: () => void;
 }) {
+  const [isDemandaModalVisible, setIsDemandaModalVisible] = useState(false);
+
   const copy = async () => {
     if (!result) return;
     const txt =
@@ -50,47 +54,61 @@ export default function AIAnalysisPanel({
     message.success("Copiado al portapapeles");
   };
 
-  const generarDemanda = async () => {
-    if (!result) return;
+  const handleGenerarDemanda = async (values: any) => {
+    setIsDemandaModalVisible(false);
 
-    const key = "generating";
-    message.loading({ content: "Generando documento...", key });
+    const key = "generating-demanda";
+
+    message.loading({ content: "Generando documento con IA...", key });
+
+    const url = "http://localhost:8000/api/generar-demanda-v2";
+
+    const dataToSend = {
+      caso_descripcion: values.caso_descripcion,
+      demandante_nombre: values.demandante_nombre,
+      demandante_cedula: values.demandante_cedula,
+      demandado_nombre: values.demandado_nombre,
+      demandado_domicilio: values.demandado_domicilio,
+      monto_total: String(values.monto_total) + " C$",
+    };
 
     try {
-      // Construct the payload from the AI result
-      const payload = {
-        hechos: result.resumen,
-        fundamentos_de_derecho: `${result.resolucion.fundamento}. Adicionalmente, se puede citar la siguiente jurisprudencia: ${result.jurisprudencia.map(j => j.nombre).join(', ')}.`,
-        // The other fields will use the defaults in the backend for now
-      };
-
-      const response = await fetch("http://localhost:8000/api/generar-demanda", {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(dataToSend),
       });
 
       if (!response.ok) {
-        throw new Error(`Error del servidor: ${response.statusText}`);
+        const errorData = await response.json();
+        console.error("Error del servidor:", errorData.detail);
+        throw new Error(
+          `¡Error HTTP! estado: ${response.status} - ${errorData.detail}`
+        );
       }
 
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+
       const a = document.createElement("a");
-      a.href = url;
-      a.download = "demanda_generada.docx";
+
+      a.href = downloadUrl;
+      a.download = "demanda_generada_v2.docx";
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
       message.success({ content: "Documento generado y descargado.", key });
+    } catch (error: any) {
+      console.error("Hubo un problema con la operación fetch:", error);
 
-    } catch (error) {
-      console.error("Error al generar la demanda:", error);
-      message.error({ content: "No se pudo generar el documento.", key });
+      message.error({
+        content: `No se pudo generar el documento. Revise la consola para más detalles. Error: ${error.message}`,
+        key,
+      });
     }
   };
 
@@ -137,13 +155,6 @@ export default function AIAnalysisPanel({
           >
             Regenerar
           </Button>
-          {/* <Button
-            type="primary"
-            icon={<CheckOutlined />}
-            disabled={loading || !result}
-          >
-            Aceptar
-          </Button> */}
         </Space>
       }
     >
@@ -182,7 +193,6 @@ export default function AIAnalysisPanel({
 
           <Paragraph>{result.resumen}</Paragraph>
 
-          {/* 🔹 Posible resolución */}
           <Alert
             type="success"
             showIcon
@@ -252,13 +262,21 @@ export default function AIAnalysisPanel({
             <Button
               type="primary"
               icon={<FileWordOutlined />}
-              onClick={generarDemanda}
+              onClick={() => setIsDemandaModalVisible(true)}
+              disabled={!result}
             >
               Generar Demanda
             </Button>
           </Space>
         </Space>
       )}
+
+      <DemandaForm
+        visible={isDemandaModalVisible}
+        onSubmit={handleGenerarDemanda}
+        onCancel={() => setIsDemandaModalVisible(false)}
+        aiResult={result}
+      />
     </Card>
   );
 }

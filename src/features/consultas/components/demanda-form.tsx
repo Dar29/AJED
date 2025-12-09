@@ -11,7 +11,12 @@ interface DemandaFormProps {
   aiResult: AIResult | null;
 }
 
-export default function DemandaForm({ visible, onSubmit, onCancel, aiResult }: DemandaFormProps) {
+export default function DemandaForm({
+  visible,
+  onSubmit,
+  onCancel,
+  aiResult,
+}: DemandaFormProps) {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -19,19 +24,20 @@ export default function DemandaForm({ visible, onSubmit, onCancel, aiResult }: D
       const jurisprudenciaText = aiResult.jurisprudencia
         .map((j) => `${j.nombre}: ${j.extracto}`)
         .join("\n- ");
-      
+
       form.setFieldsValue({
-        caso_descripcion: 
+        caso_descripcion:
           `Resumen del caso: ${aiResult.resumen}\n\n` +
           `Posible resolución: ${aiResult.resolucion.decision}\n` +
           `Fundamento: ${aiResult.resolucion.fundamento}\n\n` +
-          (jurisprudenciaText ? `Jurisprudencia relevante:\n- ${jurisprudenciaText}` : ''),
+          (jurisprudenciaText
+            ? `Jurisprudencia relevante:\n- ${jurisprudenciaText}`
+            : ""),
       });
     } else {
-        form.resetFields();
+      form.resetFields();
     }
   }, [aiResult, form, visible]);
-
 
   const handleOk = () => {
     form
@@ -86,7 +92,7 @@ export default function DemandaForm({ visible, onSubmit, onCancel, aiResult }: D
         </Form.Item>
         <Form.Item
           name="caso_descripcion"
-          label="Descripción del Caso (para Gemini)"
+          label="Descripción del Caso"
           rules={[{ required: true, message: "Este campo es requerido." }]}
         >
           <TextArea rows={10} />
@@ -105,8 +111,10 @@ export default function DemandaForm({ visible, onSubmit, onCancel, aiResult }: D
         >
           <InputNumber
             style={{ width: "100%" }}
-            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
+            formatter={(value) =>
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={(value) => value!.replace(/\$\s?|(,*)/g, "")}
           />
         </Form.Item>
       </Form>
